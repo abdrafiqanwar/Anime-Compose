@@ -1,5 +1,6 @@
 package com.example.anime.ui.component
 
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -39,8 +40,9 @@ fun TopBarBack(
     )
 }
 
-@Preview(showBackground = true, device = Devices.PIXEL_4)
 @Composable
+@Preview(showBackground = true, device = Devices.PIXEL_4)
+@Preview(showBackground = true, device = Devices.PIXEL_4, uiMode = UI_MODE_NIGHT_YES)
 fun TopBarBackPreview() {
     AnimeTheme {
         val navController = rememberNavController()

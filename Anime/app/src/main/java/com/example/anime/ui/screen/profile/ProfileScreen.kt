@@ -1,5 +1,6 @@
 package com.example.anime.ui.screen.profile
 
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -56,8 +57,9 @@ fun ProfileScreen(
     }
 }
 
-@Preview(showBackground = true, device = Devices.PIXEL_4)
 @Composable
+@Preview(showBackground = true, device = Devices.PIXEL_4)
+@Preview(showBackground = true, device = Devices.PIXEL_4, uiMode = UI_MODE_NIGHT_YES)
 fun ProfileScreenPreview() {
     AnimeTheme {
         val navController = rememberNavController()

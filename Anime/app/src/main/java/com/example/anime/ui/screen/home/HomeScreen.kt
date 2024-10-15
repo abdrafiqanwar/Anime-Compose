@@ -1,5 +1,6 @@
 package com.example.anime.ui.screen.home
 
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -72,8 +73,9 @@ fun TopBar(
     )
 }
 
-@Preview(showBackground = true, device = Devices.PIXEL_4)
 @Composable
+@Preview(showBackground = true, device = Devices.PIXEL_4)
+@Preview(showBackground = true, device = Devices.PIXEL_4, uiMode = UI_MODE_NIGHT_YES)
 fun HomeScreenPreview() {
     AnimeTheme {
         val navController = rememberNavController()

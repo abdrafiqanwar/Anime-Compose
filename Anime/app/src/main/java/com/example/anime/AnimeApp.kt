@@ -1,5 +1,6 @@
 package com.example.anime
 
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Devices
@@ -31,8 +32,9 @@ fun AnimeApp(
     }
 }
 
-@Preview(showBackground = true, device = Devices.PIXEL_4)
 @Composable
+@Preview(showBackground = true, device = Devices.PIXEL_4)
+@Preview(showBackground = true, device = Devices.PIXEL_4, uiMode = UI_MODE_NIGHT_YES)
 fun AnimeAppPreview() {
     AnimeTheme {
         AnimeApp()
