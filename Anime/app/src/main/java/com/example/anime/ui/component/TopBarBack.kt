@@ -29,7 +29,7 @@ fun TopBarBack(
         },
         navigationIcon = {
             IconButton(onClick = {
-
+                navController.navigateUp()
             }) {
                 Icon(
                     imageVector = Icons.Default.ArrowBack,
