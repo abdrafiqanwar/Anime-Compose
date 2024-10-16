@@ -1,6 +1,7 @@
 package com.example.anime.ui.screen.home
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -35,7 +36,8 @@ fun HomeScreen(
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = viewModel(
         factory = ViewModelFactory(Injection.provideRepository())
-    )
+    ),
+    navigateToDetail: (Long) -> Unit,
 ) {
     viewModel.uiState.collectAsState(initial = UiState.Loading).value.let { uiState ->
         when (uiState) {
@@ -47,6 +49,7 @@ fun HomeScreen(
                     anime = uiState.data,
                     navController = navController,
                     modifier = modifier,
+                    navigateToDetail = navigateToDetail,
                 )
             }
             is UiState.Error -> {
@@ -60,7 +63,8 @@ fun HomeScreen(
 fun HomeContent(
     anime: List<FakeAnime>,
     navController: NavHostController,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    navigateToDetail: (Long) -> Unit,
 ) {
     Scaffold(
         topBar = { TopBar(navController) }
@@ -70,9 +74,12 @@ fun HomeContent(
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {
-            items(anime) { anime ->
+            items(anime) { data ->
                 AnimeItem(
-                    anime = anime.anime
+                    anime = data.anime,
+                    modifier = Modifier.clickable {
+                        navigateToDetail(data.anime.id)
+                    }
                 )
             }
         }
@@ -114,6 +121,9 @@ fun TopBar(
 fun HomeScreenPreview() {
     AnimeTheme {
         val navController = rememberNavController()
-        HomeScreen(navController)
+        HomeScreen(
+            navController,
+            navigateToDetail = {}
+        )
     }
 }
