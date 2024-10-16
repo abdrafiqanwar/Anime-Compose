@@ -14,18 +14,51 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.example.anime.model.dummyAnime
+import com.example.anime.di.Injection
+import com.example.anime.model.FakeAnime
+import com.example.anime.ui.ViewModelFactory
+import com.example.anime.ui.common.UiState
 import com.example.anime.ui.component.AnimeItem
 import com.example.anime.ui.theme.AnimeTheme
 
 @Composable
 fun HomeScreen(
+    navController: NavHostController,
+    modifier: Modifier = Modifier,
+    viewModel: HomeViewModel = viewModel(
+        factory = ViewModelFactory(Injection.provideRepository())
+    )
+) {
+    viewModel.uiState.collectAsState(initial = UiState.Loading).value.let { uiState ->
+        when (uiState) {
+            is UiState.Loading -> {
+                viewModel.getAllAnime()
+            }
+            is UiState.Success -> {
+                HomeContent(
+                    anime = uiState.data,
+                    navController = navController,
+                    modifier = modifier,
+                )
+            }
+            is UiState.Error -> {
+                
+            }
+        }
+    }
+}
+
+@Composable
+fun HomeContent(
+    anime: List<FakeAnime>,
     navController: NavHostController,
     modifier: Modifier = Modifier
 ) {
@@ -37,8 +70,10 @@ fun HomeScreen(
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {
-            items(dummyAnime, key = { it.title }) { anime ->
-                AnimeItem(anime)
+            items(anime) { anime ->
+                AnimeItem(
+                    anime = anime.anime
+                )
             }
         }
     }
